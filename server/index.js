@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 import dotenv from 'dotenv'
 import cors from 'cors'
 
-import authRoute from './routes/auth.ts'
+import authRoute from './routes/authRoutes.js'
 
 // Результат выполнения функции Express
 const app = express()
