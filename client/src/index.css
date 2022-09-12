@@ -1,13 +1,36 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: 'BarlowBold';
+    src: local('BarlowBold'),
+    url("fonts/Barlow-Bold.ttf");
+    font-weight: bold;
 }
 
+@font-face {
+    font-family: 'BarlowMedium';
+    src: local('BarlowMedium'),
+    url("fonts/Barlow-Medium.ttf");
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'BarlowLight';
+    src: local('BarlowLight'),
+    url("fonts/Barlow-Light.ttf");
+    font-style: normal;
+}
+
+@layer base {
+    body {
+        font-family: 'BarlowMedium', sans-serif;
+    }
+}
+
+
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
