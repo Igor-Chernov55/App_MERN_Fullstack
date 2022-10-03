@@ -1,14 +1,31 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Formik} from "formik";
 import {Link} from "react-router-dom";
+import {useRegisterUserMutation} from "../../api/blogApi";
 
 const Registration = () => {
+    const [data, {isError}] = useRegisterUserMutation()
+
+    const registrationHandler = async (username: string, password: string) => {
+
+        try {
+            await data({username, password})
+            isError && alert('ошибка')
+        }
+        catch (e) {
+            console.log(e)
+            alert('failed')
+        }
+    }
+
+
     return (
+
         <Formik
             initialValues={{login: '', password: ''}}
             onSubmit={(values) => {
-                console.log('login', values.login)
-                console.log('password', values.password)
+                registrationHandler(values.login, values.password)
+
             }}
         >
             {({values, handleChange, handleSubmit}: any) => (

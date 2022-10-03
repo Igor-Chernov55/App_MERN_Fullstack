@@ -11,7 +11,6 @@ import Login from "./navigation/authorization/Login";
 import EditPost from "./navigation/workPosts/EditPost";
 
 function App() {
-
     return (
         <Layout>
             <Routes>

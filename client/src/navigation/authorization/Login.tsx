@@ -1,15 +1,26 @@
 import React from 'react';
 import {Formik} from "formik";
 import {Link} from "react-router-dom";
+import {useAuthUserMutation} from "../../api/blogApi";
 
 const Login = () => {
+
+    const [data, {error}] = useAuthUserMutation()
+    const authHandler = async (username:string, password:string) => {
+        try {
+            await data({username, password}).unwrap()
+            console.log(error)
+        }
+        catch (e) {
+            console.log(e)
+        }
+    }
 
     return (
         <Formik
             initialValues={{login: '', password: ''}}
             onSubmit={(values) => {
-                console.log('login', values.login)
-                console.log('password', values.password)
+                authHandler(values.login, values.password)
             }}
         >
             {({values, handleChange, handleSubmit}: any) => (
