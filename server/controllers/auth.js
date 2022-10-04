@@ -17,6 +17,7 @@ export const register = async (request, response) => {
 
         // Генерация хэша
         const salt = bcrypt.genSaltSync(10)
+        // Хэшируем пароль
         const hash = bcrypt.hashSync(password, salt)
 
         const newUser = new User({
@@ -24,12 +25,21 @@ export const register = async (request, response) => {
             password: hash
         })
 
+        const token = jwt.sign(
+            {
+                id: newUser._id
+            },
+            process.env.JWT_SECRET,
+            {expiresIn: '30d'}
+        )
+
         // Сохраняем пароль
         await newUser.save()
 
         // Возварщаем нового пользователя с сообщением
         response.json({
             newUser,
+            token,
             message: 'Регистрация успешно проведена'
         })
     } catch (e) {
@@ -47,14 +57,14 @@ export const login = async (request, response) => {
         const user = await User.findOne({username})
 
         if (!user) {
-            return response.json({messgae: 'Пользователь с таким именем не сущетсвует в базе.'})
+            return response.json({message: 'Пользователь с таким именем не сущетсвует в базе.'})
         }
 
         const isPasswordCorrect = await bcrypt.compare(password, user.password)
 
         if (!isPasswordCorrect) {
             return response.json({
-                messgae: 'Неверный пароль'
+                message: 'Неверный пароль'
             })
         }
 
@@ -77,7 +87,7 @@ export const login = async (request, response) => {
 // Get Me
 export const getMe = async (request, response) => {
     try {
-         const user = await User.findById(request.userId)
+        const user = await User.findById(request.userId)
 
         if (!user) {
             return response.json({

@@ -1,18 +1,18 @@
 import React from 'react';
 import {Formik} from "formik";
 import {Link} from "react-router-dom";
-import {useAuthUserMutation} from "../../api/blogApi";
+import {useRegisterUserMutation} from "../../api/blogApiRTKQuery";
 
-const Login = () => {
+const Registration = () => {
+    const [data, errors] = useRegisterUserMutation()
 
-    const [data, {error}] = useAuthUserMutation()
-    const authHandler = async (username:string, password:string) => {
+    const handleSubmit = async (username:string, password: string) => {
         try {
-            await data({username, password}).unwrap()
-            console.log(error)
+            await data({username, password})
+            errors && window.localStorage.setItem('token', errors.data.token); alert(errors.data.message)
         }
-        catch (e) {
-            console.log(e)
+        catch {
+
         }
     }
 
@@ -20,7 +20,9 @@ const Login = () => {
         <Formik
             initialValues={{login: '', password: ''}}
             onSubmit={(values) => {
-                authHandler(values.login, values.password)
+                handleSubmit(values.login, values.password)
+                values.login = ''
+                values.password = ''
             }}
         >
             {({values, handleChange, handleSubmit}: any) => (
@@ -28,7 +30,7 @@ const Login = () => {
                     onSubmit={handleSubmit}
                     className='flex flex-col w-1/3 h-60 mx-auto mt-40'
                 >
-                    <h1 className='text-lg text-black text-center'>Авторизация</h1>
+                    <h1 className='text-lg text-black text-center'>Регистрация</h1>
                     <label className='text-lm '>
                         Имя пользователя
                         <input
@@ -59,14 +61,14 @@ const Login = () => {
                             className='w-40 bg-green-200 text-black rounded px-2 py-1 text-sm
                         hover:bg-blue-300 hover:text-white'
                         >
-                            войти
+                            зарегистрироваться
                         </button>
 
                         <Link
-                            to='/register'
+                            to='/login'
                             className='text-sm text-blue-400 '
                         >
-                            зарегистрироваться
+                            войти
                         </Link>
                     </div>
                 </form>
@@ -75,4 +77,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default Registration;
