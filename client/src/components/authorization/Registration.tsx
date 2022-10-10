@@ -1,17 +1,27 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Formik} from "formik";
 import {Link} from "react-router-dom";
 import {useRegisterUserMutation} from "../../api/blogApiRTKQuery";
+import {toast} from "react-toastify";
+import {useAppDispatch, useAppSelector} from "../../utils/hooks";
+import {authSlice} from "../../store/slices/authSlice";
 
 const Registration = () => {
-    const [data, errors] = useRegisterUserMutation()
+    const [submit, result ] = useRegisterUserMutation()
+    const dispatch = useAppDispatch()
+    const token = useAppSelector(state => state.auth.token)
 
-    const handleSubmit = async (username:string, password: string) => {
+    useEffect(() => {
+        toast(result?.data?.message)
+        console.log('token', token)
+    }, [result])
+
+    const hh = (username: string, password: string) => {
         try {
-            await data({username, password})
-            errors && window.localStorage.setItem('token', errors.data.token); alert(errors.data.message)
-        }
-        catch {
+            submit({username, password})
+            result.data.token && window.localStorage.setItem('token', result.data.token);
+            dispatch(authSlice.actions.setToken(result.data.token))
+        } catch {
 
         }
     }
@@ -20,7 +30,7 @@ const Registration = () => {
         <Formik
             initialValues={{login: '', password: ''}}
             onSubmit={(values) => {
-                handleSubmit(values.login, values.password)
+                hh(values.login, values.password)
                 values.login = ''
                 values.password = ''
             }}

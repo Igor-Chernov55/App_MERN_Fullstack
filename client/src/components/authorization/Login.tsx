@@ -1,18 +1,35 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Formik} from "formik";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {useAuthUserMutation} from "../../api/blogApiRTKQuery";
+import {toast} from "react-toastify";
+import {useAppDispatch, useAppSelector} from "../../utils/hooks";
+import {authSlice} from "../../store/slices/authSlice";
 
 const Login = () => {
-    const [data, errors] = useAuthUserMutation()
+    const [data, result] = useAuthUserMutation()
+    const dispatch = useAppDispatch()
+    const token = useAppSelector(state => state.auth.token)
+    const navigate = useNavigate()
 
-    const handleSubmit = async (username:string, password: string) => {
+    useEffect(() => {
+        toast(result?.data?.message)
+
+    }, [result])
+
+    useEffect(() => {
+        console.log('token', token)
+    })
+
+    const hh = (username: string, password: string) => {
         try {
-            await data({username, password})
-            errors && window.localStorage.setItem('token', errors.data.token);
-            alert(errors.data.message)
-        }
-        catch {
+            data({username, password})
+            if (result.data.token) {
+                window.localStorage.setItem('token', result.data.token);
+                dispatch(authSlice.actions.setToken(result.data.token))
+                navigate('/posts')
+            }
+        } catch {
 
         }
     }
@@ -21,9 +38,10 @@ const Login = () => {
         <Formik
             initialValues={{login: '', password: ''}}
             onSubmit={(values) => {
-                handleSubmit(values.login, values.password)
+                hh(values.login, values.password)
                 values.login = ''
                 values.password = ''
+
             }}
         >
             {({values, handleChange, handleSubmit}: any) => (
@@ -62,6 +80,7 @@ const Login = () => {
                             type='submit'
                             className='w-40 bg-green-200 text-black rounded px-2 py-1 text-sm
                         hover:bg-blue-300 hover:text-white'
+
                         >
                             войти
                         </button>

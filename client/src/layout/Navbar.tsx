@@ -1,9 +1,13 @@
 import React from 'react';
 import {Link, NavLink} from "react-router-dom";
+import {useAppDispatch, useAppSelector} from "../utils/hooks";
+import {authSlice} from "../store/slices/authSlice";
 
 const Navbar = () => {
+    const dispatch = useAppDispatch()
+    const token = useAppSelector(state => state.auth.token)
 
-    const isAuth = false
+    const isAuth = Boolean(token)
 
     return (
         <div className='flex py-3 px-2 justify-between items-center'>
@@ -45,7 +49,13 @@ const Navbar = () => {
 
             <div className="flex justify-center items-center ">
                 {isAuth ?
-                    <button className='bg-blue-300 px-4 '>Выйти</button>
+                    <button
+                        className='bg-blue-300 px-4 '
+                        onClick={() => {
+                            dispatch(authSlice.actions.logOut())
+                        }
+                        }
+                    >Выйти</button>
                     :
                     <Link to={'/login'}>Войти</Link>
                 }

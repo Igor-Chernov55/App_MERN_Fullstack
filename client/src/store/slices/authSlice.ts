@@ -1,9 +1,8 @@
-import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import axios from "../../api/blogApiAxios";
+import {createSlice} from "@reduxjs/toolkit";
 
 interface AuthSlice {
     user: null,
-    token: null,
+    token: null | string,
     isLoading: boolean,
     status: null
 }
@@ -33,7 +32,15 @@ const initialState: AuthSlice = {
 export const authSlice = createSlice({
     name: 'auth',
     initialState,
-    reducers: {},
+    reducers: {
+        logOut: state => {
+            state.token = null
+            window.localStorage.removeItem('token')
+        },
+        setToken: (state, action) => {
+            state.token = action.payload
+        }
+    },
     // extraReducers: {
     //     [registerUser.pending]: (state) => {
     //         state.isLoading = true
