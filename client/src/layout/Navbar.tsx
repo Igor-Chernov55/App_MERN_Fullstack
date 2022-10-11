@@ -2,6 +2,7 @@ import React from 'react';
 import {Link, NavLink, useNavigate} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../utils/hooks";
 import {authSlice} from "../store/slices/authSlice";
+import {toast} from "react-toastify";
 
 const Navbar = () => {
     const dispatch = useAppDispatch()
@@ -55,6 +56,7 @@ const Navbar = () => {
                         onClick={() => {
                             dispatch(authSlice.actions.logOut())
                             navigate('/login')
+                            toast('Выход из профиля')
                         }
                         }
                     >Выйти</button>

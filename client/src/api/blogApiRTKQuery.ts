@@ -21,10 +21,15 @@ export  const blogApiRTKQuery = createApi({
                 body: {username, password}
             })
         }),
-        getMe: builder.query<any, any>({
-            query: () => '/auth/me'
-        })
+        createPost: builder.mutation({
+            query: (body) => ({
+                url: '/auth/posts',
+                method: 'POST',
+                body: body
+            })
+        }),
+
     })
 })
 
-export const {useRegisterUserMutation, useAuthUserMutation, useGetMeQuery} = blogApiRTKQuery
+export const {useRegisterUserMutation, useAuthUserMutation, useCreatePostMutation} = blogApiRTKQuery

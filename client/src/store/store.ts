@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
 import {blogApiRTKQuery} from "../api/blogApiRTKQuery";
 import {authSlice} from "./slices/authSlice";
+import {postsSlice} from "./slices/postsSlice";
 
 export const store = configureStore({
     reducer: {
         auth: authSlice.reducer,
+        posts: postsSlice.reducer,
         [blogApiRTKQuery.reducerPath]: blogApiRTKQuery.reducer
     },
 
