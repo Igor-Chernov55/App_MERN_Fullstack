@@ -1,10 +1,11 @@
 import React from 'react';
-import {Link, NavLink} from "react-router-dom";
+import {Link, NavLink, useNavigate} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../utils/hooks";
 import {authSlice} from "../store/slices/authSlice";
 
 const Navbar = () => {
     const dispatch = useAppDispatch()
+    const navigate = useNavigate()
     const token = useAppSelector(state => state.auth.token)
 
     const isAuth = Boolean(token)
@@ -53,6 +54,7 @@ const Navbar = () => {
                         className='bg-blue-300 px-4 '
                         onClick={() => {
                             dispatch(authSlice.actions.logOut())
+                            navigate('/login')
                         }
                         }
                     >Выйти</button>

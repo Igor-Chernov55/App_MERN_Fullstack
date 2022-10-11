@@ -56,7 +56,7 @@ const Login = () => {
                         <input
                             type="text"
                             placeholder='username'
-                            className='mt-1  text-sm text-white w-full rounded outline-none bg-blue-300 px-2 py-1 '
+                            className='mt-1 text-sm text-white w-full rounded outline-none bg-blue-300 px-2 py-1 '
                             onChange={handleChange}
                             name={'login'}
                             id={'login'}
