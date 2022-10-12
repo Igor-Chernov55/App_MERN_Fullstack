@@ -1,10 +1,13 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Formik} from "formik";
 import {useAuthUserMutation, useCreatePostMutation} from "../../api/blogApiRTKQuery";
 
 const AddPost = () => {
     const [submitPost, result] = useCreatePostMutation()
 
+    useEffect(() => {
+        console.log(window.localStorage.getItem('token'))
+    },[])
     interface PostType {
         header:string,
         mainText: string,
@@ -31,12 +34,13 @@ const AddPost = () => {
             initialValues={initialValue}
             onSubmit={values => {
                 console.log(values)
-                // const data = new FormData()
-                // data.append('title', values.header)
-                // data.append('text', values.mainText)
-                // data.append('image', values.image)
-                //
-                // handleSubmit(data)
+                const data = new FormData()
+                data.append('title', values.header)
+                data.append('text', values.mainText)
+                data.append('image', values.image)
+
+                handleSubmit(data)
+                console.log(result)
             }
         }
         >

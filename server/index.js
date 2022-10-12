@@ -2,6 +2,7 @@ import  express from 'express'
 import mongoose from "mongoose";
 import dotenv from 'dotenv'
 import cors from 'cors'
+import fileUpload from 'express-fileupload'
 
 import authRoute from './routes/authRoutes.js'
 import postRoute from './routes/postRoutes.js'
@@ -21,7 +22,12 @@ const DB_NAME = process.env.DB_NAME
 // middleware необходим для corsa(подключение с разных ip адресов)
 app.use(cors())
 //необходим для принятия данных в формате json
+app.use(fileUpload())
 app.use(express.json())
+app.use(express.static('uploads'))
+
+
+
 
 // Routes
 app.use('/api/auth', authRoute)

@@ -41,7 +41,7 @@ const Login = () => {
                 hh(values.login, values.password)
                 values.login = ''
                 values.password = ''
-
+                console.log(values)
             }}
         >
             {({values, handleChange, handleSubmit}: any) => (

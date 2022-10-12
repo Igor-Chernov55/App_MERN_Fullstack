@@ -1,5 +1,6 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 import {RegisterType} from "../store/slices/authSlice";
+import {useAppSelector} from "../utils/hooks";
 
 export  const blogApiRTKQuery = createApi({
     reducerPath: 'blogApiRTKQuery',
@@ -22,9 +23,12 @@ export  const blogApiRTKQuery = createApi({
             })
         }),
         createPost: builder.mutation({
-            query: (body) => ({
+            query: (body):any => ({
                 url: '/auth/posts',
                 method: 'POST',
+                headers: {
+                    authorization: window.localStorage.getItem('token')
+                },
                 body: body
             })
         }),
