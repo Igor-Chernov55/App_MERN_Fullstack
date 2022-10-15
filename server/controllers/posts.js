@@ -19,7 +19,7 @@ export const createPost = async (req, res) => {
                 title,
                 text,
                 imgUrl: fileName,
-                author: req.user.id
+                author: req.userId
             })
 
             await newPostWithImage.save()
@@ -39,7 +39,8 @@ export const createPost = async (req, res) => {
             author: req.userId,
         })
 
-        await newPostWithoutImage.save(req.userId, {
+        await newPostWithoutImage.save()
+        await User.findByIdAndUpdate(req.userId, {
             $push: {posts: newPostWithoutImage}
         })
 

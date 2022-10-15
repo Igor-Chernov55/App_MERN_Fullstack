@@ -24,7 +24,7 @@ export  const blogApiRTKQuery = createApi({
         }),
         createPost: builder.mutation({
             query: (body):any => ({
-                url: '/auth/posts',
+                url: '/posts',
                 method: 'POST',
                 headers: {
                     authorization: window.localStorage.getItem('token')

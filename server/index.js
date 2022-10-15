@@ -31,7 +31,7 @@ app.use(express.static('uploads'))
 
 // Routes
 app.use('/api/auth', authRoute)
-app.use('/api/post', postRoute)
+app.use('/api/posts', postRoute)
 
 
 async function start(){
