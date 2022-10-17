@@ -1,13 +1,12 @@
 import React, {useEffect} from 'react';
-import {Formik} from "formik";
+import {Formik, useFormikContext} from "formik";
 import {useAuthUserMutation, useCreatePostMutation} from "../../api/blogApiRTKQuery";
+import {useDispatch} from "react-redux";
+import {useAppDispatch} from "../../utils/hooks";
+import {createPost} from "../../store/slices/postsSlice";
+import {toast} from "react-toastify";
 
 const AddPost = () => {
-    const [submitPost, result] = useCreatePostMutation()
-
-    useEffect(() => {
-        console.log(window.localStorage.getItem('token'))
-    },[])
     interface PostType {
         header:string,
         mainText: string,
@@ -19,38 +18,51 @@ const AddPost = () => {
         mainText: '',
         image: ''
     }
+    const [submitPost, result] = useCreatePostMutation()
 
-    const handleSubmit = (data: any) => {
-        try {
-            submitPost(data)
-        }
-        catch (e) {
+    const hh =  (values: any) => {
+        const data =  new FormData()
+        data.append('title', values.header)
+        data.append('text', values.mainText)
+        data.append('image', values.image)
 
-        }
+        submitPost(data)
+        result && toast('Пост успешно добавлен')
+    }
+
+
+
+    const Handle = () => {
+        // const {values, submitForm} = useFormikContext()
+        //
+        //
+        // useEffect(() => {
+        //
+        //    if (values) hh(values)
+        //
+        // },[values, submitForm])
+
+        return null
     }
 
     return (
         <Formik
             initialValues={initialValue}
-            onSubmit={values => {
-                console.log(values)
-                const data = new FormData()
-                data.append('title', values.header)
-                data.append('text', values.mainText)
-                data.append('image', values.image)
-
-                handleSubmit(data)
-                console.log(result)
+            onSubmit={(values) => {
+                hh(values)
             }
         }
         >
-            {({values, handleChange}: any) =>
-                <form className='w-1/3 mx-auto py-10'>
+            {({values, handleChange, handleSubmit}: any) =>
+                <form className='w-1/3 mx-auto py-10' onSubmit={handleSubmit}>
                     <label className='flex items-center justify-center border-2 border-dotted cursor-grab text-white py-2 bg-blue-300 text-xs mt-2'>Прикрепить изображение <input
-                        type="file" className='hidden'/>
+                        type="file"
+                        id={'image'}
+                        name={'image'}
+                        className='hidden'/>
                     </label>
                     <div className='flex object-cover py-2'>IMAGE</div>
-
+                    <Handle />
                     <label className='text-m text-black'>
                         Заголовок поста:
                         <input name={'header'} id={'header'} value={values.header}  onChange={handleChange} type="text" placeholder='Заголовок поста' className='mt-1 w-full rounded-lg bg-blue-300 py-2 px-2 text-xs outline-none placeholder:text-white text-white' />

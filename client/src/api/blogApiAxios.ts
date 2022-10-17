@@ -13,6 +13,8 @@ interface AxiosConfigType {
 // Добавляем перехватчик запросов interceptors
 instance.interceptors.request.use((config: any) => {
     config.headers.Authorization = window.localStorage.getItem('token')
+
+    return config
 })
 
 export default instance

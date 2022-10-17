@@ -23,7 +23,7 @@ export  const blogApiRTKQuery = createApi({
             })
         }),
         createPost: builder.mutation({
-            query: (body):any => ({
+            query: (body): any => ({
                 url: '/posts',
                 method: 'POST',
                 headers: {
