@@ -1,10 +1,10 @@
-import React, {useEffect} from 'react';
-import {Formik, useFormikContext} from "formik";
-import {useAuthUserMutation, useCreatePostMutation} from "../../api/blogApiRTKQuery";
-import {useDispatch} from "react-redux";
+import React, {useState} from 'react';
+import {Formik} from "formik";
+import {useCreatePostMutation} from "../../api/blogApiRTKQuery";
+import {toast} from "react-toastify";
+import {useNavigate} from "react-router-dom";
 import {useAppDispatch} from "../../utils/hooks";
 import {createPost} from "../../store/slices/postsSlice";
-import {toast} from "react-toastify";
 
 const AddPost = () => {
     interface PostType {
@@ -19,31 +19,18 @@ const AddPost = () => {
         image: ''
     }
     const [submitPost, result] = useCreatePostMutation()
+    const dispatch = useAppDispatch()
+    const [image, setImage] = useState('')
+    const navigate = useNavigate()
 
-    const hh =  (values: any) => {
+    const hh = (values: any) => {
         const data =  new FormData()
         data.append('title', values.header)
         data.append('text', values.mainText)
-        data.append('image', values.image)
-
-        submitPost(data)
-        result && toast('Пост успешно добавлен')
+        data.append('image', image)
+        dispatch(createPost(data))
     }
 
-
-
-    const Handle = () => {
-        // const {values, submitForm} = useFormikContext()
-        //
-        //
-        // useEffect(() => {
-        //
-        //    if (values) hh(values)
-        //
-        // },[values, submitForm])
-
-        return null
-    }
 
     return (
         <Formik
@@ -57,12 +44,19 @@ const AddPost = () => {
                 <form className='w-1/3 mx-auto py-10' onSubmit={handleSubmit}>
                     <label className='flex items-center justify-center border-2 border-dotted cursor-grab text-white py-2 bg-blue-300 text-xs mt-2'>Прикрепить изображение <input
                         type="file"
-                        id={'image'}
-                        name={'image'}
+
+                        onChange={(e) =>
+                            // @ts-ignore
+                            setImage(e.target.files[0])
+                    }
                         className='hidden'/>
                     </label>
-                    <div className='flex object-cover py-2'>IMAGE</div>
-                    <Handle />
+                    <div className='flex object-cover py-2'>
+                        { image && (
+                            // @ts-ignore
+                            <img src={URL.createObjectURL(image)} alt=""/>
+                        )}
+                    </div>
                     <label className='text-m text-black'>
                         Заголовок поста:
                         <input name={'header'} id={'header'} value={values.header}  onChange={handleChange} type="text" placeholder='Заголовок поста' className='mt-1 w-full rounded-lg bg-blue-300 py-2 px-2 text-xs outline-none placeholder:text-white text-white' />

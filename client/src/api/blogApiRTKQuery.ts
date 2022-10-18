@@ -27,13 +27,19 @@ export  const blogApiRTKQuery = createApi({
                 url: '/posts',
                 method: 'POST',
                 headers: {
-                    authorization: window.localStorage.getItem('token')
+                    Authorization: window.localStorage.getItem('token')
                 },
                 body: body
             })
         }),
+        getAllPosts: builder.query({query: (): any => ({
+                url: '/posts',
+                headers: {
+                    Authorization: window.localStorage.getItem('token')
+                }
+        })})
 
     })
 })
 
-export const {useRegisterUserMutation, useAuthUserMutation, useCreatePostMutation} = blogApiRTKQuery
+export const {useRegisterUserMutation, useAuthUserMutation, useCreatePostMutation, useGetAllPostsQuery} = blogApiRTKQuery
