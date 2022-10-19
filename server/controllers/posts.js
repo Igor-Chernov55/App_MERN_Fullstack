@@ -7,6 +7,10 @@ import { fileURLToPath } from 'url'
 // Create Post
 export const createPost = async (req, res) => {
     try {
+
+        console.log('res' , req)
+        console.log('req', res)
+
         const { title, text } = req.body
         const user = await User.findById(req.userId)
 
@@ -64,7 +68,7 @@ export const getAll = async (req, res) => {
     }
 }
 
-// Get Post By Id
+// Get Post By
 export const getById = async (req, res) => {
     try {
         const post = await Post.findByIdAndUpdate(req.params.id, {

@@ -1,10 +1,10 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Formik} from "formik";
 import {useCreatePostMutation} from "../../api/blogApiRTKQuery";
-import {toast} from "react-toastify";
 import {useNavigate} from "react-router-dom";
 import {useAppDispatch} from "../../utils/hooks";
 import {createPost} from "../../store/slices/postsSlice";
+import axios from "axios";
 
 const AddPost = () => {
     interface PostType {
@@ -23,14 +23,22 @@ const AddPost = () => {
     const [image, setImage] = useState('')
     const navigate = useNavigate()
 
+    useEffect(() => {
+        axios.post('http://localhost:3002/api/posts', {},
+            {headers: {
+                    'Content-Type': 'multipart/form-data',
+                    'Authorization': window.localStorage.getItem('token')
+                }})
+    },[])
+
     const hh = (values: any) => {
         const data =  new FormData()
         data.append('title', values.header)
         data.append('text', values.mainText)
         data.append('image', image)
-        dispatch(createPost(data))
+        submitPost(data)
+        // dispatch(createPost(data))
     }
-
 
     return (
         <Formik

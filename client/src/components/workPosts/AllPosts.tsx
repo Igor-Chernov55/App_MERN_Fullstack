@@ -1,27 +1,23 @@
 import React, {useLayoutEffect} from 'react';
 import {useGetAllPostsQuery} from "../../api/blogApiRTKQuery";
 import {skipToken} from "@reduxjs/toolkit/query";
+import {useAppDispatch, useAppSelector} from "../../utils/hooks";
+import axios from "axios";
+import {allPost} from "../../store/slices/postsSlice";
+import {MainPage} from "./MainPage";
 
 const AllPosts = () => {
-    const {data} = useGetAllPostsQuery(1)
+    const dispatch = useAppDispatch()
+    const posts = useAppSelector(state => state.posts)
 
-    let arr:any = []
     useLayoutEffect(() => {
-
-        arr.push(data?.posts)
-        console.log(arr)
+        dispatch(allPost())
+        console.log(posts)
     },[])
-
-
 
     return (
         <div>
-            {// @ts-ignore
-                arr.map(m => {
-                return (
-                    <p>{m}</p>
-                )
-            })}
+            <MainPage />
         </div>
     );
 };
