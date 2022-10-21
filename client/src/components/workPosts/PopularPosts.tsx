@@ -1,10 +1,16 @@
-import React from 'react';
+import React, {FC} from 'react';
 
-const PopularPosts = () => {
+type PopularPostsType = {
+    post: {
+        title: string
+    }
+}
+
+const PopularPosts: FC<PopularPostsType> = ({post}: PopularPostsType) => {
     return (
         <div className={'my-1'}>
             <div className="flex text-xs hover:text-green-300">
-                Post popular
+                {post.title}
             </div>
 
         </div>

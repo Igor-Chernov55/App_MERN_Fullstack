@@ -7,13 +7,6 @@ import {allPost} from "../../store/slices/postsSlice";
 import {MainPage} from "./MainPage";
 
 const AllPosts = () => {
-    const dispatch = useAppDispatch()
-    const posts = useAppSelector(state => state.posts)
-
-    useLayoutEffect(() => {
-        dispatch(allPost())
-        console.log(posts)
-    },[])
 
     return (
         <div>

@@ -12,6 +12,8 @@ import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import {useAppDispatch} from "./utils/hooks";
 import {authSlice} from "./store/slices/authSlice";
+import {MainPage} from "./components/workPosts/MainPage";
+import Main from "./components/Main";
 
 function App() {
     const dispatch = useAppDispatch()
@@ -25,8 +27,8 @@ function App() {
             <Routes>
                 <Route path='login' element={<Login/>}/>
                 <Route path='register' element={<Registration/>}/>
-                {/*<Route path='/' element={<Main/>}/>*/}
-                <Route path='posts' element={<AllPosts/>}/>
+                <Route path='/' element={<MainPage/>}/>
+                <Route path='posts' element={<Main/>}/>
                 <Route path=':id' element={<PagePost/>}/>
                 <Route path=':id/edit' element={<EditPost/>}/>
                 <Route path='newPost' element={<AddPost/>}/>
