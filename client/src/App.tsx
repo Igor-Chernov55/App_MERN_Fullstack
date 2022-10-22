@@ -14,6 +14,7 @@ import {useAppDispatch} from "./utils/hooks";
 import {authSlice} from "./store/slices/authSlice";
 import {MainPage} from "./components/workPosts/MainPage";
 import Main from "./components/Main";
+import PostsUser from "./components/workPosts/PostsUser";
 
 function App() {
     const dispatch = useAppDispatch()
@@ -25,10 +26,10 @@ function App() {
     return (
         <Layout>
             <Routes>
-                <Route path='login' element={<Login/>}/>
-                <Route path='register' element={<Registration/>}/>
+                <Route path='/login' element={<Login/>}/>
+                <Route path='/register' element={<Registration/>}/>
                 <Route path='/' element={<MainPage/>}/>
-                <Route path='posts' element={<Main/>}/>
+                <Route path='posts' element={<PostsUser/>}/>
                 <Route path=':id' element={<PagePost/>}/>
                 <Route path=':id/edit' element={<EditPost/>}/>
                 <Route path='newPost' element={<AddPost/>}/>
